@@ -21,9 +21,9 @@ for(var i=0;i<images.length;i++){
 }
 
 dwnlButton.addEventListener("click", function(){
-		document.getElementById("selectedImages").value=saveImages(images);
-		var form = document.getElementById("form");
-		form.submit();
+	document.getElementById("selectedImages").value=saveImages(images);
+	var form = document.getElementById("form");
+	form.submit();
 });
 
 minWidth.addEventListener("input", function(){

@@ -1,39 +1,18 @@
-package imagedownloaderjsp;
+package com.example.imagedownloaderjsp.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-/**
- * Servlet implementation class SearchServlet
- */
-@WebServlet("/search")
-public class SearchServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String url = request.getParameter("url"); 
-		String [] images = getImages(url);
-		request.setAttribute("images", images);
-				
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/images.jsp");  
-		requestDispatcher.forward(request, response); 
-	}
+public class Parser {
 	
-	private String [] getImages (String url) throws IOException {
-		List <String> urls = new ArrayList <> ();
+	public List<String> getImageURLs(String url) throws IOException{
+		List<String> imageURLs = new ArrayList<>();
 		
 		// The connect() method creates a new connection, and get() fetches and parses a HTML file
         Document doc = Jsoup.connect(url).get();
@@ -49,23 +28,23 @@ public class SearchServlet extends HttpServlet {
         for (Element el: links) {
             String imageUrl = el.attr("abs:href");
             if(imageUrl.toLowerCase().endsWith(".jpg")||imageUrl.toLowerCase().endsWith(".png")) {
-            	urls.add(imageUrl);
+            	imageURLs.add(imageUrl);
             }
         }
         
         for (Element el: imports) {
             String imageUrl = el.attr("abs:href");
             if(imageUrl.toLowerCase().endsWith(".jpg")||imageUrl.toLowerCase().endsWith(".png")) {
-            	urls.add(imageUrl);
+            	imageURLs.add(imageUrl);
             }
         }
         
         for (Element el: images) {
             String imageUrl = el.attr("abs:src");
-            urls.add(imageUrl);
+            imageURLs.add(imageUrl);
         }
-		
-	    return urls.toArray(new String[urls.size()]);  
+				
+		return imageURLs;
 	}
 
 }

@@ -16,7 +16,7 @@
 </div>
 
 <div class="jumbotron text-center">
-<form id="form" class="form-inline" action="download">
+<form id="form" class="form-inline" action="download" method="post">
   
   <div class="form-group">
   <div class="checkbox-inline">

@@ -1,4 +1,4 @@
-package imagedownloaderjsp;
+package com.example.imagedownloaderjsp.model;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,35 +7,9 @@ import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-/**
- * Servlet implementation class DownloadServlet
- */
-@WebServlet("/download")
-public class DownloadServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String str = request.getParameter("images");
-		String [] urls = str.split(",");
-		ByteArrayOutputStream byteArrayOutputStream = createArchive(urls);
-		
-		response.setContentType("application/octet-stream");
-		response.setContentLength(byteArrayOutputStream.size());
-		response.addHeader("Content-Disposition", "attachment; filename=" + "images.zip");
-		
-		try (ServletOutputStream servletOutputStream = response.getOutputStream()){
-			byteArrayOutputStream.writeTo(servletOutputStream);
-		}
-	}
+public class Downloader {
 	
-	private ByteArrayOutputStream createArchive (String [] urls) throws IOException {
+	public ByteArrayOutputStream createArchive (String [] urls) throws IOException {
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		
 		try (ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream)){
@@ -63,7 +37,6 @@ public class DownloadServlet extends HttpServlet {
 			
 		}
 		return byteArrayOutputStream;
-		
 	}
 
 }
